@@ -189,20 +189,4 @@ resource "aws_instance" "my_ec2" {
   }
 
   security_groups = ["${aws_security_group.allow_http_https_ssh_internet.id}"]
-
-  provisioner "local-exec" {
-    command = "echo \"${aws_instance.my_ec2.public_ip}\n${aws_instance.my_ec2.availability_zone}\n${aws_instance.my_ec2.id}\" > info_ec2.txt"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo amazon-linux-extras install -y nginx1.12",
-      "sudo systemctl start nginx"
-    ]
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      private_key = file("../devops-gaby.pem")
-      host = self.public_ip
-    }
-  }
 }
