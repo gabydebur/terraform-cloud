@@ -14,7 +14,19 @@ resource "aws_vpc" "my_vpc" {
 }
 
 
+variable "instancetype" {
+  type        = string
+  description = "Type de l'instance ec2"
+  default     = "t2.nano"
+}
 
+variable "aws_common_tag" {
+  type        = map(string)
+  description = "set aws tag"
+  default = {
+    Name = "ec2-easytraining"
+  }
+}
 
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
